@@ -8,5 +8,6 @@ fn main() {
     let mut file = File::create("heightmap.glb").expect("create glb");
     file.write_all(&result.glb()).expect("write glb");
     std::fs::write("points.json", result.points()).expect("write json");
+
     println!("Generated heightmap.glb with seed {}", seed);
 }

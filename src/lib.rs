@@ -19,6 +19,12 @@ pub struct WorldResult {
     pub points: Vec<InterestPoint>,
 }
 
+
+/// Generate a simple heightmap and return a GLB binary containing a single mesh.
+///
+/// `size` controls the number of vertices per side of the square grid.
+/// `scale` controls the noise frequency.
+/// `seed` allows generating different maps for each call.
 #[wasm_bindgen]
 impl WorldResult {
     /// Access the generated GLB binary.
@@ -159,6 +165,7 @@ fn generate_terrain(size: u32, scale: f32, seed: u32) -> (Vec<f32>, Vec<u32>, Ve
     }
 
     let mut indices = Vec::with_capacity(((size - 1) * (size - 1) * 6) as usize);
+
     for z in 0..(size - 1) {
         for x in 0..(size - 1) {
             let i = z * size + x;
@@ -170,10 +177,13 @@ fn generate_terrain(size: u32, scale: f32, seed: u32) -> (Vec<f32>, Vec<u32>, Ve
 }
 
 fn build_glb(positions: &[f32], indices: &[u32]) -> Vec<u8> {
+
     let pos_bytes = positions.len() * std::mem::size_of::<f32>();
     let idx_bytes = indices.len() * std::mem::size_of::<u32>();
     let buffer_length = pos_bytes + idx_bytes;
 
+
+    // Build glTF JSON
     let gltf = json!({
         "asset": {"version": "2.0"},
         "buffers": [{"byteLength": buffer_length}],
@@ -213,6 +223,7 @@ fn build_glb(positions: &[f32], indices: &[u32]) -> Vec<u8> {
         glb.extend_from_slice(&f.to_le_bytes());
     }
     for i in indices {
+
         glb.extend_from_slice(&i.to_le_bytes());
     }
     glb.extend(std::iter::repeat(0).take(bin_pad));

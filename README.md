@@ -19,6 +19,7 @@ functions are available: `generate_heightmap_glb` which just returns the GLB
 mesh, and `generate_world` which additionally reports interesting locations
 like the river path.
 
+
 To produce a large heightmap locally for inspection, run the binary:
 
 ```bash
@@ -30,6 +31,7 @@ cargo run --release
 ```ts
 import init, { generate_world } from './pkg/rust_land.js';
 
+
 async function load() {
   await init();
   const seed = Math.floor(Math.random() * 0xffffffff);
@@ -37,6 +39,6 @@ async function load() {
   const bytes = result.glb;
   const points = result.points;
   // `bytes` is a Uint8Array containing the GLB file
-  // `points` is an array with interesting locations
+  // `points` is an array with interesting locationn
 }
 ```
