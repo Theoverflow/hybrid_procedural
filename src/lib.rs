@@ -6,10 +6,11 @@ use serde_json::json;
 ///
 /// `size` controls the number of vertices per side of the square grid.
 /// `scale` controls the noise frequency.
+/// `seed` allows generating different maps for each call.
 #[wasm_bindgen]
-pub fn generate_heightmap_glb(size: u32, scale: f32) -> Vec<u8> {
-    // Generate vertex positions using Perlin noise
-    let perlin = Perlin::new(0);
+pub fn generate_heightmap_glb(size: u32, scale: f32, seed: u32) -> Vec<u8> {
+    // Generate vertex positions using Perlin noise with the provided seed
+    let perlin = Perlin::new(seed);
     let mut positions: Vec<f32> = Vec::with_capacity((size * size * 3) as usize);
     for z in 0..size {
         for x in 0..size {
